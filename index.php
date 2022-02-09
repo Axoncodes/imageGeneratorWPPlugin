@@ -75,7 +75,7 @@ add_filter('max_srcset_image_width', 'disable_wp_responsive_images');
 add_filter( 'big_image_size_threshold', '__return_false' );
 
 // custom image tag
-function wordpressAXCustomImage($src, $alt, $id, $class, $loading, $width, $height, $sizes) {
+function axgImgen($src, $alt, $id, $class, $loading, $width, $height, $sizes) {
 	$useragentos = $_SERVER["HTTP_USER_AGENT"];
 	$generalimgexe=".jpg";
 	$imgmainsrc = $src;
