@@ -88,5 +88,5 @@ function axgImgen($src, $alt, $id, $class, $loading, $width, $height, $sizes) {
 		elseif ($size == "medium") $imgsrcsetqueue.= "$baseimgsrc-$size$generalimgexe 900w,";
 		elseif ($size == "large") $imgsrcsetqueue.= "$baseimgsrc-$size$generalimgexe 1500w,";
 	}
-	echo "<img loading='$loading' id='$id' src='$src' alt='$alt' class='$class' srcset='$imgsrcsetqueue' />";
+	return "<img loading='$loading' id='$id' src='$src' alt='$alt' class='$class' srcset='$imgsrcsetqueue' />";
 }
