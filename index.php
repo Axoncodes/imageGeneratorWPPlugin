@@ -68,3 +68,34 @@ function image_delete_process( $post_id, $post ){
         deleteFile($path['dirname'], $path['filename']);
     }
 }
+
+// disable srcset on frontend
+function disable_wp_responsive_images(){return 1;}
+add_filter('max_srcset_image_width', 'disable_wp_responsive_images');
+add_filter( 'big_image_size_threshold', '__return_false' );
+
+// custom image tag
+function wordpressAXCustomImage($src, $alt, $id, $class, $loading, $width, $height, $sizes) {
+	$useragentos = $_SERVER["HTTP_USER_AGENT"];
+	$generalimgexe=".jpg";
+	$imgmainsrc = $src;
+	$baseimgsrc = substr($imgmainsrc, 0, strripos($imgmainsrc, '.'));
+	$exeimgsrc = substr($imgmainsrc, strripos($imgmainsrc, '.'));
+	$generalimgexe = $exeimgsrc;
+	$newimgsrcset = $baseimgsrc.$exeimgsrc;
+	$imgsrcsetqueue = "";
+	foreach ($sizes as $size) {
+		if ($size == "thumbnail") $src= "$baseimgsrc-$size$generalimgexe";
+		elseif ($size == "small") $imgsrcsetqueue.= "$baseimgsrc-$size$generalimgexe 300w,";
+		elseif ($size == "medium") $imgsrcsetqueue.= "$baseimgsrc-$size$generalimgexe 900w,";
+		elseif ($size == "large") $imgsrcsetqueue.= "$baseimgsrc-$size$generalimgexe 1500w,";
+	}
+	return "<img 
+		loading='$loading'
+		id='$id' 
+		src='$src'
+		alt='$alt'
+		class='$class'
+		srcset='$imgsrcsetqueue'
+	/>";
+}
