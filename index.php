@@ -42,7 +42,7 @@ function image_upload_process_to_convert( $attachment_id ) {
 		list($width, $height, $type, $attr) = getimagesize("$address/$filename.$fileexe");
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => 'https://api.axoncodes.com/imgen/',
+			CURLOPT_URL => 'https://imgen.axoncodes.com/',
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => '',
 			CURLOPT_MAXREDIRS => 10,
