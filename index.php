@@ -40,6 +40,10 @@ function image_upload_process_to_convert( $attachment_id ) {
 		$filename = $path['filename'];
 		$fileexe = $path['extension'];
 		list($width, $height, $type, $attr) = getimagesize("$address/$filename.$fileexe");
+
+		// $type = pathinfo($path, PATHINFO_EXTENSION);
+		// $data = file_get_contents($path);
+		$base64 = file_get_contents($file);
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
 			CURLOPT_URL => 'https://imgen.axoncodes.com/',
@@ -53,6 +57,15 @@ function image_upload_process_to_convert( $attachment_id ) {
 			CURLOPT_POSTFIELDS => "filename=$filename&address=$address&fileexe=$fileexe&width=$width",
 		));
 		$response = curl_exec($curl);
+		$responseobj = json_decode($response, true);
+
+		foreach ($responseobj as $element) {
+			$size = $element['size'];
+			$myfile = fopen("$address/$filename-$size.$fileexe", "w");
+			fwrite($myfile, implode(array_map("chr", $element['buffer']['data'])));
+			fclose($myfile);
+		}
+
 		curl_close($curl);
 	}
 }
